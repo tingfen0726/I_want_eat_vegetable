@@ -1,6 +1,15 @@
 var myGamePiece;
 let score = 0;
 var myObstacles = [];
+let keys = {};
+
+document.addEventListener("keydown", function(e){
+    keys[e.key] = true;
+});
+
+document.addEventListener("keyup", function(e){
+    keys[e.key] = false;
+});
 let gameRunning = false;
 function startGame() {
     myGameArea.ready();
@@ -83,9 +92,24 @@ function component(width, height, color, x, y, type) {
     }
 }
 
-myGameArea.canvas.addEventListener("click", function(e){
-    if(gameRunning) return;
-    myGameArea.start(); // 開始遊戲
+myGameArea.canvas.addEventListener("mousedown", function(e){
+    if(gameRunning == false){
+        myGameArea.start();
+    }
+    else{
+        const rect = myGameArea.canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+
+        if(mouseX < myGameArea.canvas.width / 2){
+            keys["a"] = true;  // 左半邊當作按下左鍵
+        } else {
+            keys["d"] = true;  // 左半邊當作按下左鍵
+        }
+    }
+});
+myGameArea.canvas.addEventListener("mouseup", function(e){
+    keys["a"] = false;
+    keys["d"] = false;
 });
 
 function updateGameArea() {
@@ -145,40 +169,15 @@ function everyinterval(n) {
     if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
     return false;
 }
-let keys = {}; // 儲存按鍵狀態
-
-document.addEventListener("keydown", function(e){
-    keys[e.key] = true;
-});
-
-document.addEventListener("keyup", function(e){
-    keys[e.key] = false;
-});
 
 function updatePlayerMovement() {
     if(keys["a"]) myGamePiece.speedX = -myGameArea.canvas.width * 0.005;  // 直接用固定速度
     else if(keys["d"]) myGamePiece.speedX = myGameArea.canvas.width * 0.005;
     else myGamePiece.speedX = 0;
 }
-// function moveleft() {
-//     myGamePiece.speedX = -myGameArea.canvas.width * 0.005;
-// }
-// function moveright() {
-//     myGamePiece.speedX = myGameArea.canvas.width * 0.005;
-// }
-
-// myGameArea.canvas.addEventListener("keydown", function(e) {
-//     switch(e.key) {
-//         case "a":
-//             moveleft();
-//             break;
-//         case "d":
-//             moveright();
-//             break;
-//     }
-// });
 
 myGameArea.canvas.addEventListener("keyup", function(e) {
     myGamePiece.speedX = 0;
     myGamePiece.speedY = 0;
+
 });
