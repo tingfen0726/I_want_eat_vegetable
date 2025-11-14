@@ -178,7 +178,7 @@ function updateGameArea() {
         }
 
         for (i = 0; i < myObstacles.length; i += 1) {
-            myObstacles[i].y += 5;
+            myObstacles[i].y += myGameArea.canvas.height * 0.01;
             myObstacles[i].update();
         }
     }
@@ -201,4 +201,5 @@ myGameArea.canvas.addEventListener("keyup", function(e) {
     myGamePiece.speedY = 0;
 
 });
+
 
