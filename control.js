@@ -112,6 +112,26 @@ myGameArea.canvas.addEventListener("mouseup", function(e){
     keys["d"] = false;
 });
 
+myGameArea.canvas.addEventListener("touchstart", function(e){
+    if(gameRunning == false){
+        myGameArea.start();
+    } else {
+        const rect = myGameArea.canvas.getBoundingClientRect();
+        const touchX = e.touches[0].clientX - rect.left;  // 第一個觸碰點
+        if(touchX < myGameArea.canvas.width / 2){
+            keys["a"] = true;
+        } else {
+            keys["d"] = true;
+        }
+    }
+    e.preventDefault(); // 避免滾動
+}, {passive:false});
+
+myGameArea.canvas.addEventListener("touchend", function(e){
+    keys["a"] = false;
+    keys["d"] = false;
+}, {passive:false});
+
 function updateGameArea() {
     myGameArea.clear();
 
@@ -181,3 +201,4 @@ myGameArea.canvas.addEventListener("keyup", function(e) {
     myGamePiece.speedY = 0;
 
 });
+
