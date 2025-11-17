@@ -1,28 +1,22 @@
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
-        <style>
-            body {
-                display: flex;
-                align-items: center;
-                margin: 0;
-                overflow: hidden;
-            }
-            canvas {
-                border: none;
-
-            }
-        </style>
+        <link rel="stylesheet" href="art.css">
     </head>
     <body onload="startGame()">
-        <div>
-            <script src="control.js"></script>
+        <div class="tv">
+            <button id="edit">edit</button>
+            <div id="set">
+                <div class="set-item">
+                    <p>player speed:</p>
+                    <input type="number" step="1" min="1" id="speed">
+                </div>
+                <div class="set-item">
+                    <p>fall speed:</p>
+                    <input type="number" step="1" min="1" id="fall">
+                </div>
+            </div>
         </div>
-        <!-- <div style="text-align:center;width:480px;">
-        <button onmousedown="move('up')" onmouseup="clearmove()" ontouchstart="move('up')">UP</button><br><br>
-        <button onmousedown="move('left')" onmouseup="clearmove()" ontouchstart="move('left')">LEFT</button>
-        <button onmousedown="move('right')" onmouseup="clearmove()" ontouchstart="move('right')">RIGHT</button><br><br>
-        <button onmousedown="move('down')" onmouseup="clearmove()" ontouchstart="move('down')">DOWN</button>
-        </div> -->
     </body>
 </html>
+
