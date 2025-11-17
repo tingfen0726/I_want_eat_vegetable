@@ -1,7 +1,10 @@
 var myGamePiece;
 let score = 0;
 var myObstacles = [];
+let gameRunning = false;
 let keys = {};
+let people_speed = 0.005;
+let fall_speed = 0.01;
 
 document.addEventListener("keydown", function(e){
     keys[e.key] = true;
@@ -10,7 +13,13 @@ document.addEventListener("keydown", function(e){
 document.addEventListener("keyup", function(e){
     keys[e.key] = false;
 });
-let gameRunning = false;
+
+function updatePlayerMovement() {
+    if(keys["a"]) myGamePiece.speedX = -myGameArea.canvas.width * people_speed;  // 直接用固定速度
+    else if(keys["d"]) myGamePiece.speedX = myGameArea.canvas.width * people_speed;
+    else myGamePiece.speedX = 0;
+}
+
 function startGame() {
     myGameArea.ready();
 }
@@ -178,7 +187,7 @@ function updateGameArea() {
         }
 
         for (i = 0; i < myObstacles.length; i += 1) {
-            myObstacles[i].y += myGameArea.canvas.height * 0.01;
+            myObstacles[i].y += myGameArea.canvas.height * fall_speed;
             myObstacles[i].update();
         }
     }
@@ -190,16 +199,26 @@ function everyinterval(n) {
     return false;
 }
 
-function updatePlayerMovement() {
-    if(keys["a"]) myGamePiece.speedX = -myGameArea.canvas.width * 0.005;  // 直接用固定速度
-    else if(keys["d"]) myGamePiece.speedX = myGameArea.canvas.width * 0.005;
-    else myGamePiece.speedX = 0;
-}
-
 myGameArea.canvas.addEventListener("keyup", function(e) {
     myGamePiece.speedX = 0;
     myGamePiece.speedY = 0;
-
 });
+
+document.getElementById("edit").addEventListener("click", () => {
+    const setDiv = document.getElementById("set");
+    const style = window.getComputedStyle(setDiv);
+    setDiv.style.display = (style.display === "none") ? "block" : "none";
+
+    document.getElementById("speed").value = people_speed * 1000;
+    document.getElementById("fall").value = fall_speed * 1000;
+});
+
+document.getElementById("speed").addEventListener("input", () => {
+    people_speed = Number(document.getElementById("speed").value) / 1000;
+});
+document.getElementById("fall").addEventListener("input", () => {
+    fall_speed = Number(document.getElementById("fall").value) / 1000;
+});
+
 
 
